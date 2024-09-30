@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'KaTeX';
+    src: url('https://unpkg.com/vditor@3.10.6/dist/js/katex/fonts/KaTeX_Size2-Regular.woff2') format('woff2');
+    font-display: swap;  /* 确保用户体验不受到影响 */
+  }
+  

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html  lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://unpkg.com; worker-src 'self' blob:;">
+
+    <title>Vue Notepad</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+<style>
+  html, body {
+    /* overflow: hidden; */
+    height: 100%; /* 确保高度填充 */
+    margin: 0; /* 去除默认边距 */
+  }
+  
+</style>

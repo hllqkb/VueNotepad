@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 4000; // 设置端口为 4000
 const rateLimit = require('express-rate-limit');
 const RedisStore = require('rate-limit-redis');
 const redis = require('redis');
+const { exec } = require('child_process');
 
 const app = express(); // 初始化 Express 应用
 
@@ -47,9 +48,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // CORS 配置
 app.use(cors({
-    origin: 'http://localhost:5173', // 前端地址
+    origin: 'http://localhost:5173', // 确保这里是你的前端地址
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'] // 允许的请求头
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-upload-token'] // 添加 'x-upload-token' 到允许的请求头
 }));
 
 app.use(bodyParser.json()); // 解析 JSON 请求体
@@ -63,6 +64,38 @@ app.use('/api/notes', notesApi);
 
 // 注册 AI API 路由
 app.use('/api/ai', aiApi);
+
+// 添加 AI 摘要 API 路由
+app.post('/api/summarize', async (req, res) => {
+    const { content } =req.body;
+    if (!content) {
+        return res.status(400).json({ error: 'Content is required for summarization' });
+    }
+
+    try {
+        // 构建 LLM.py 的绝对路径
+        const scriptPath = path.join(__dirname, 'python', 'LLM.py');
+        
+        // 使用子进程执行 Python 脚本
+        exec(`python "${scriptPath}" "帮我总结以下内容：${content}"`, (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error executing Python script:', error);
+                return res.status(500).json({ error: 'Failed to summarize content' });
+            }
+            if (stderr) {
+                console.error('Python script stderr:', stderr);
+                return res.status(500).json({ error: 'Failed to summarize content' });
+            }
+
+            // 解析 Python 脚本的输出
+            const result = JSON.parse(stdout);
+            res.json({ summary: result });
+        });
+    } catch (error) {
+        console.error('Summarization error:', error);
+        res.status(500).json({ error: 'Failed to summarize content' });
+    }
+});
 
 // 添加根路由
 app.get('/', (req, res) => {

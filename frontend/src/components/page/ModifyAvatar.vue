@@ -46,6 +46,11 @@ export default {
   },
   methods: {
     handleAvatarSuccess(response) {
+      const token = localStorage.getItem('jwt');
+      if (!token) {
+        ElMessage.error('请先登录');
+        return;
+      }
       if (response.code === 0) {
         ElMessage.success('头像上传成功');
         this.avatar = response.url; // 使用 response.url 更新头像

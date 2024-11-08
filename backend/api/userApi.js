@@ -259,8 +259,12 @@ router.post('/modifyPassword', authenticateJWT, async (req, res) => {
 
 // 上传头像的 API
 router.post('/uploadAvatar', authenticateJWT, upload.single('avatar'), async (req, res) => {
+    if (!req.file) {
+        console.error('文件上传失败');
+        return res.status(400).json({ error: '文件上传失败' });
+    }
+
     const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    
     const currentUsername = req.user.name; // 现在 req.user 应该被正确设置
     let connection;
     try {

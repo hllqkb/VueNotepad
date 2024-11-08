@@ -1,55 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../components/common/Home.vue';
+import NoteDetail from '@/components/NoteDetail.vue';
+import Calendar from '../components/page/Calendar.vue';
+import Profile from '../components/page/Profile.vue';
+import ModifyUser from '../components/page/ModifyUser.vue';
+import ModifyPassword from '../components/page/ModifyPassword.vue';
+import ModifyAvatar from '../components/page/ModifyAvatar.vue';
+import Register from '../components/page/Register.vue';
+import Login from '../components/page/Login.vue';
+import AiChat from '../components/page/AiChat.vue';
 
 const routes = [
-    {
-        path: '/',
-
-    },
-    {
-        path: '/readme',
-        component: () => import('../components/common/Home.vue'), // 使用异步导入
-        children: [
-            {
-                path: '/upload',
-                component: () => import('../components/page/Upload.vue') // Vue-Core-Image-Upload组件
-            },
-            {
-                path: '/userCenter',
-                component: () => import('../components/page/UserCenter.vue') // 拖拽列表组件
-            },
-            {
-                path: '/modifyUser',
-                component: () => import('../components/page/ModifyUser.vue') // 使用异步导入
-            },
-            {
-                path: '/modifyPassword',
-                component: () => import('../components/page/ModifyPassword.vue') // 使用异步导入
-            },
-            {
-                path: '/success',
-                component: () => import('../components/page/Success.vue') // 使用异步导入
-            }
-        ]
-    },
-    {
-        path: '/addnote',
-        component: () => import('../components/page/AddNote.vue'), // 使用异步导入
-    },
-    {
-        path: '/register',
-        component: () => import('../components/page/Register.vue') // 使用异步导入
-    },
-    {
-        path: '/login',
-        component: () => import('../components/page/Login.vue') // 使用异步导入
-    },
+    { path: '/', component: Home },
+    { path: '/notes/:id', name: 'NoteDetail', component: NoteDetail },
+    { path: '/calendar', component: Calendar },
+    { path: '/profile', component: Profile },
+    { path: '/modifyUser', component: ModifyUser },
+    { path: '/modifyPassword', component: ModifyPassword },
+    { path: '/modifyAvatar', component: ModifyAvatar },
+    { path: '/register', component: Register },
+    { path: '/login', component: Login },
+    { path: '/ai', component: AiChat }
 ];
 
-// 创建路由实例
 const router = createRouter({
-    history: createWebHistory(), // 使用 HTML5 历史模式
-    routes, // 路由配置
+    history: createWebHistory(),
+    routes,
 });
 
-// 导出路由实例
 export default router;

@@ -1,13 +1,13 @@
 // server.js
+import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import fs from 'fs';
 import { dirname, join } from 'path';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import { fileURLToPath } from 'url'; // 导入文件URL
 
 const app = express();
-const PORT = 3000;
+const PORT = 4001;
 
 // 中间件
 app.use(cors());
@@ -30,12 +30,17 @@ app.use('/api/test', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
+    //创建笔记
     const { title, content } = req.body;
 
     // 确保标题和内容都存在
     if (!title) {
         return res.status(400).json({ error: '标题不能为空' });
     }
+
+    // 读取现有的 notes.json 数据以生成新的 id
+    const notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
+    const newId = notesData.length > 0 ? Math.max(...notesData.map(note => note.id)) + 1 : 1; // 生成新的 id
 
     // 生成文件名，使用标题和当前时间戳
     const safeTitle = title.replace(/[\s\\/:"<>|?*]+/g, '-'); // 替换文件名不安全字符
@@ -51,10 +56,9 @@ app.post('/api/notes', (req, res) => {
         if (err) {
             return res.status(500).json({ error: '创建文件失败', details: err.message });
         }
-console.log('喵喵喵');
-        // 记录创建时间和文件名到 notes.json
-        const notesData = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
-        notesData.push({ title: safeTitle, createdAt: new Date().toISOString(), fileName });
+        console.log('喵喵喵');
+        // 记录创建时间、文件名和 id 到 notes.json
+        notesData.push({ id: newId, title: safeTitle, createdAt: new Date().toISOString(), fileName });
         fs.writeFileSync(notesFilePath, JSON.stringify(notesData, null, 2));
 
         res.status(201).json({ message: '文件创建成功', filePath });
@@ -68,7 +72,7 @@ fs.mkdir(join(__dirname, 'notes'), { recursive: true }, (err) => {
     } else {
         // 启动服务器
         app.listen(PORT, () => {
-            console.log(`服务器正在运行在 http://localhost:${PORT}`);
+            console.log(`Frontend server is running on http://localhost:${PORT}`);
         });
     }
 });
@@ -162,3 +166,62 @@ app.get('/api/notes/:title', (req, res) => {
         });
     });
 });
+
+// DELETE endpoint to delete a local notes file
+app.delete('/api/deletenotes/:fileName', (req, res) => {
+    const fileName = req.params.fileName; // Get the file name from the request parameters
+    const filePath = join(__dirname, 'notes', fileName); // Construct the full file path
+    const notesPath = join(__dirname, 'notes.json'); // notes.json 的路径
+
+    // Check if the file exists before attempting to delete
+    fs.stat(filePath, (err) => {
+        if (err) {
+            if (err.code === 'ENOENT') {
+                // File does not exist
+                return res.status(404).json({ error: filePath + ' 文件不存在' });
+            }
+            // Some other error occurred
+            return res.status(500).json({ error: '检查文件时发生错误' });
+        }
+
+        // Delete the file
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error('删除文件失败:', err);
+                return res.status(500).json({ error: '删除文件失败' });
+            }
+
+            // 读取 notes.json 文件
+            fs.readFile(notesPath, 'utf8', (err, data) => {
+                if (err) {
+                    return res.status(500).json({ error: '读取 notes.json 文件失败', details: err.message });
+                }
+
+                // 解析 JSON 数据
+                let notes;
+                try {
+                    notes = JSON.parse(data);
+                } catch (parseErr) {
+                    return res.status(500).json({ error: '解析 JSON 数据失败', details: parseErr.message });
+                }
+
+                // 从 notes 中移除对应的记录
+                notes = notes.filter(note => note.fileName !== fileName);
+
+                // 将更新后的数据写回 notes.json
+                fs.writeFile(notesPath, JSON.stringify(notes, null, 2), (writeErr) => {
+                    if (writeErr) {
+                        return res.status(500).json({ error: '更新 notes.json 文件失败', details: writeErr.message });
+                    }
+                    res.json({ message: '文件删除成功' }); // Success response
+                });
+            });
+        });
+    });
+});
+
+// Start the server
+//不要再创建一个新的端口，煞笔！
+// app.listen(PORT, () => {
+//     console.log(`Local backend server is running on http://localhost:${PORT}`);
+// });

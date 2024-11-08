@@ -11,7 +11,7 @@
                     <el-input v-model="ruleForm.name" placeholder="账号"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                    <el-input type="password" placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="handleLogin"></el-input>
                 </el-form-item>
                 <el-form-item prop="validate">
                     <el-input v-model="ruleForm.validate" class="validate-code" placeholder="验证码"></el-input>
@@ -20,7 +20,7 @@
                     </div>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button type="primary" @click="handleLogin">登录</el-button>
                 </div>
                 <p class="register" @click="handleCommand()">注册</p>
             </el-form>
@@ -29,10 +29,10 @@
 </template>
 
 <script>
+import SIdentify from '@/components/page/identify.vue';
 import config from '@/config.js';
 import axios from 'axios';
 import { ElMessage } from 'element-plus'; // 引入 ElMessage
-import SIdentify from '@/components/page/identify.vue'
 export default {
     name: 'login',
     components: {
@@ -40,7 +40,7 @@ export default {
     },
     data() {
         return {
-            identifyCodes: "1234567890",
+            identifyCodes: "1234",
             identifyCode: "",
             errorInfo: false,
             errInfo: "",
@@ -72,69 +72,48 @@ export default {
             //停止运行
         }
         const username1 = localStorage.getItem('username'); // 获取用户名
-const password1 = localStorage.getItem('password'); // 获取密码
-if (username1 && password1) {
-    this.ruleForm.name = username1; // 将用户名赋值
-    this.ruleForm.password = password1; // 将密码赋值
-}
+        const password1 = localStorage.getItem('password'); // 获取密码
+        if (username1 && password1) {
+            this.ruleForm.name = username1; // 将用户名赋值
+            this.ruleForm.password = password1; // 将密码赋值
+        }
     },
     methods: {
-        submitForm(formName) { 
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    //验证码验证
-                    if (this.ruleForm.validate.toUpperCase() !== this.identifyCode.toUpperCase()) {
-                        this.errorInfo = true;
-                        this.errInfo = '验证码错误';
-                        ElMessage.error('验证码错误'); // 使用 ElMessage 显示错误信息
-                        return;
-                    }
-                    axios.post(`${config.API_BASE_URL}/api/user/login`, this.ruleForm)
-                    .then((response) => {
-                        if (response.data == -1) {
-                            this.errorInfo = true;
-                            this.errInfo = '该用户不存在';
-                            ElMessage.error('该用户不存在'); // 使用 ElMessage 显示错误信息
-                        } else if (response.data == 0) {
-                            this.errorInfo = true;
-                            this.errInfo = '密码错误';
-                            ElMessage.error('密码错误'); // 使用 ElMessage 显示错误信息
-                        } else if (response.status === 200) {
-                            this.$router.push('/');
-                            sessionStorage.setItem('ms_username', this.ruleForm.name);
-                            sessionStorage.setItem('ms_user', JSON.stringify(this.ruleForm));
-                            localStorage.setItem('username', this.ruleForm.name);
-                            localStorage.setItem('password', this.ruleForm.password);
-                            ElMessage.success('登录成功'); // 提示登录成功
-                            this.$store.commit('setVisible', false);
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(error); // 打印错误信息
-                        ElMessage.error('请求失败，请稍后再试'); // 使用 ElMessage 显示请求失败信息
-                    });
+        async handleLogin() {
+            try {
+                const response = await axios.post(`${config.API_BASE_URL}/api/user/login`, {
+                    name: this.ruleForm.name,
+                    password: this.ruleForm.password
+                });
+                if (response.data.token) {
+                    localStorage.setItem('jwt', response.data.token); // 确保使用 'jwt' 作为键名
+                    localStorage.setItem('avatar', response.data.avatar); // 存储头像
+                    this.$store.commit('setUsername', this.ruleForm.name); // 存储用户名到 Vuex
+                    this.$router.push('/profile'); // 登录成功后跳转
+                    ElMessage.success('登录成功'); // 提示登录成功
                 } else {
-                    ElMessage.error('请确保表单填写完整'); // 显示表单填写完整的信息
+                    ElMessage.error('登录失败: 未收到 token');
                 }
-            });
+            } catch (error) {
+                ElMessage.error('登录失败: ' + error.response.data.error);
+            }
         },
         handleCommand() {
             this.$router.push('/register');
         },
         refreshCode() {
-      this.identifyCode = "";
-      this.makeCode(this.identifyCodes, 4);
-    },
-    randomNum(min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    },
+            this.identifyCode = "";
+            this.makeCode(this.identifyCodes, 4);
+        },
+        randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+        },
         makeCode(o, l) {
-      for (let i = 0; i < l; i++) {
-        this.identifyCode += this.identifyCodes[
-          this.randomNum(0, this.identifyCodes.length)
-        ];
-      }
-      //identifyCode= this.identifyCode;
+            for (let i = 0; i < l; i++) {
+                this.identifyCode += this.identifyCodes[
+                    this.randomNum(0, this.identifyCodes.length)
+                ];
+            }
         }
     }
 }

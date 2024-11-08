@@ -8,10 +8,11 @@
 </template>
 
 <script>
-import Vditor from 'vditor';
-import 'vditor/dist/index.css';
 import axios from 'axios'; // 导入 Axios
 import { ElMessage } from 'element-plus';
+import Vditor from 'vditor';
+import 'vditor/dist/index.css';
+import config from '@/config';
 
 export default {
   computed: {
@@ -59,6 +60,36 @@ export default {
             style: 'vs',
           },
         },
+        upload: {
+          accept: 'image/*,.mp3,.wav,.rar',
+          token: 'test',
+          url: config.API_BASE_URL + '/api/notes/upload/editor',
+          linkToImgUrl: config.API_BASE_URL + '/api/notes/upload/fetch',
+
+          filename (name) {
+            return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
+              .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
+              .replace(/\s/g, ''); // 修正正则表达式以正确移除空格
+          },
+          fieldName: 'image', // 确保字段名与后端一致
+          
+          success: (responseText,msg) => {
+            console.log('上传响应文本:', msg); // 添加日志
+            // 上传成功后，插入图片
+            // 插入图片的格式为 ![图片描述](图片URL)
+            // 图片描述为msg.data.filename  
+            // 图片URL为msg.data.url
+            // 图片描述为msg.data.filename
+            //转成json
+            const msgJson = JSON.parse(msg);
+            ElMessage.success('上传文件成功');
+            this.vditor.insertValue('![' + msgJson.data.filename + '](' + msgJson.data.url + ')');
+          },
+          error: (err) => {
+            console.log('上传错误:', err); // 添加日志
+            ElMessage.error('上传文件失败: ' + err.message);
+          }
+        },
         after: () => {
           this.updateTheme(this.message);
         },
@@ -88,7 +119,7 @@ export default {
       console.log('内容:', content);
 
       // 发送 POST 请求
-      axios.post('http://localhost:3000/api/notes/update', {
+      axios.post(config.LOCAL_URL + '/api/notes/update', {
         title: title,
         newContent: content,
       })

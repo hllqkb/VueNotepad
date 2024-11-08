@@ -1,98 +1,58 @@
 <template>
-	<div>
-		<div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-edit"></i> 个人中心</el-breadcrumb-item>
-                <el-breadcrumb-item>修改密码</el-breadcrumb-item>
-            </el-breadcrumb>
-		</div>
-		<div class="userContent">
-			<el-form ref="form" :model="form" :rules="rules" label-width="80px">
-				<el-form-item prop="pass" label="密码">
-					<el-input v-model="form.pass" type="password" placeholder="请输入密码"></el-input>
-				</el-form-item>
-				<el-form-item prop="checkPass" label="确认密码">
-					<el-input v-model="form.checkPass" type="password" placeholder="请再次输入密码"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="onSubmit('form')">确定</el-button>
-					<el-button @click="onCancle()">取消</el-button>
-				</el-form-item>
-			</el-form>
-		</div>
+	<div class="modify-password">
+		<h2>修改密码</h2>
+		<el-form :model="form" ref="form" label-width="80px">
+			<el-form-item label="旧密码">
+				<el-input v-model="form.oldPassword" type="password" placeholder="请输入旧密码"></el-input>
+			</el-form-item>
+			<el-form-item label="新密码">
+				<el-input v-model="form.newPassword" type="password" placeholder="请输入新密码"></el-input>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" @click="onSubmit">提交</el-button>
+			</el-form-item>
+		</el-form>
 	</div>
 </template>
 
 <script>
-	export default {
-		data() {
-			var validatePass = (rule, value, callback) => {
-				if(value === '') {
-					callback(new Error('请输入密码'));
-				} else {
-					if(this.form.checkPass !== '') {
-						this.$refs.form.validateField('checkPass');
-					}
-					callback();
-				}
-			};
-			var validatePass2 = (rule, value, callback) => {
-				if(value === '') {
-					callback(new Error('请再次输入密码'));
-				} else if (value !== this.form.pass) {
-					callback(new Error('两次输入的密码不一致'));
-				} else {
-					callback();
-				}
-			};
-            return {
-				form: {
-					pass: '',
-					checkPass: ''
-				},
-				rules: {
-					pass: [
-                        { validator: validatePass, trigger: 'blur'}
-                    ],
-                    checkPass: [
-                        { validator: validatePass2, trigger: 'blur' }
-                    ]
-				}
+import axios from 'axios';
+import { ElMessage } from 'element-plus';
+import config from '@/config.js';
+
+export default {
+	data() {
+		return {
+			form: {
+				oldPassword: '',
+				newPassword: ''
 			}
-        },
-        methods:{
-        	onSubmit(formName) {
-				const self = this;
-				let formData = {
-					id: parseInt(sessionStorage.getItem('ms_userId')),
-					pass: self.form.pass,
-					checkPass: self.form.checkPass
-				};			
-				self.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        self.$http.post('/api/user/modifyPassword',formData).then(function(response) {
-							console.log(response);
-							self.$router.push('/login');
-						}).then(function(error) {
-							console.log(error);
-						})
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-        	},
-        	onCancle() {
-        		this.$router.push('/userCenter');
-        	}        	
-        }
+		};
+	},
+	methods: {
+		async onSubmit() {
+			try {
+				const token = localStorage.getItem('jwt');	
+				const response = await axios.post(`${config.API_BASE_URL}/api/user/modifyPassword`, this.form, {
+					headers: {
+						Authorization: `Bearer ${token}`
+					}
+				});
+				ElMessage.success('密码修改成功');
+				localStorage.removeItem('jwt'); // 清除本地存储中的 JWT
+				this.$router.push('/login'); // 重定向到登录页面
+			} catch (error) {
+				console.error('修改密码失败:', error);
+				ElMessage.error('修改密码失败');
+			}
+		}
 	}
+};
 </script>
 
-<style>
-	.userContent {
-		width: 400px;
-		margin: 0 auto;
-	}
+<style scoped>
+.modify-password {
+	padding: 20px;
+}
 </style>
    

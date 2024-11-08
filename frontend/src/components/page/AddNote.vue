@@ -15,9 +15,9 @@
 </template>
 
 <script>
+import config from '@/config.js'; // 导入项目配置
 import axios from 'axios'; // 导入axios
 import { ElMessage } from 'element-plus'; // 导入 Element Plus 的消息提示
-
 
 export default {
   data() {
@@ -39,14 +39,14 @@ export default {
         //this.$store.dispatch('updateNote', this.note); // 触发 action 更新 Vuex 状态
        // this.$store.dispatch('updateVisibility', false); // 触发 mutation 更新 Vuex 状态
        this.$store.commit('setVisible', false); // 触发 mutation 更新 Vuex 状态，关闭弹窗
-        const response = await axios.post('http://localhost:3000/api/notes',  postData,{
+      const response = await axios.post(`${config.LOCAL_URL}/api/notes`,  postData,{
           headers: {
                 'Content-Type': 'application/json', // 设置请求头为 JSON
             },
         });
         ElMessage.success('文件创建成功！'); // 提示成功信息
         //重新刷新侧边栏页面·
-        this.$store.dispatch('updateNote'); // 触发 action 刷新笔记列表
+        window.location.reload();
 
         
       } catch (error) {

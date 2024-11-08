@@ -8,7 +8,7 @@ import pkg from './package.json'; // 导入 package.json 文件
 
 // https://vitejs.dev/config/ - Vite 配置文件的文档链接
 export default defineConfig(({ command }) => {
-
+  // 启动本地后端服务
   exec('nodemon localbackend/serve.js', { stdio: 'inherit' }, (error) => {
     if (error) {
       console.error('Error executing serve.js:', error);

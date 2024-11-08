@@ -112,28 +112,32 @@ export default {
       }
     },
     handleBlur() {
-      // 失去焦点时调用 POST 方法
-      const content = this.vditor.getValue(); // 获取当前内容
-      const title = this.title ? this.title.split('.md')[0] : ''; //假设标题
-      console.log('标题:', title);
-      console.log('内容:', content);
+      const content = this.vditor.getValue();
+      const title = this.title ? this.title.split('.md')[0] : '';
+      const account = this.$store.state.account; // 假设账户信息存储在 Vuex 中
+      const fileName = title; // 假设文件名与标题相同
 
-      // 发送 POST 请求
+      const token = localStorage.getItem('jwt');
       axios.post(config.LOCAL_URL + '/api/notes/update', {
         title: title,
         newContent: content,
+        account: account, // 添加账户信息
+        fileName: fileName // 添加文件名
+      },{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       })
       .then(response => {
-        ElMessage.success('文件更新成功'); // 使用 ElMessage 成功提示
-        //重新刷新侧边栏页面
-        this.$store.dispatch('updateNote'); // 触发 action 刷新笔记列表
-        this.isContentChanged = false; // 更新成功后重置变更标志
+        ElMessage.success('文件更新成功');
+        this.$store.dispatch('updateNote');
+        this.isContentChanged = false;
       })
       .catch(error => {
         if (error.response) {
-          ElMessage.error('更新文件失败: ' + error.response.data); // 使用 ElMessage 失败提示
+          ElMessage.error('更新文件失败: ' + error.response.data);
         } else {
-          ElMessage.error('更新文件失败: ' + error.message); // 使用 ElMessage 失败提示
+          ElMessage.error('更新文件失败: ' + error.message);
         }
       });
     },

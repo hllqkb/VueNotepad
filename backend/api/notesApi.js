@@ -218,4 +218,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+// 添加更新笔记的 API
+router.post('/update', async (req, res) => {
+    const { title, newContent, account, fileName } = req.body;
+    console.log('接收到的请求数据:', { title, newContent, account, fileName }); // 添加日志
+
+    if (!title || !newContent || !account || !fileName) {
+        return res.status(400).json({ error: '标题、内容、账户和文件名不能为空' });
+    }
+
+    const sql = 'UPDATE notes SET content = ?, title = ? WHERE account = ? AND fileName = ?';
+    try {
+        const connection = await pool.getConnection();
+        await connection.query(sql, [newContent, title, account, fileName]);
+        connection.release();
+        res.json({ message: '笔记更新成功' });
+    } catch (err) {
+        console.error('更新笔记失败:', err);
+        return res.status(500).json({ error: '更新笔记失败' });
+    }
+});
+
 module.exports = router; // 导出路由

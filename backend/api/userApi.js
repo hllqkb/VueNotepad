@@ -174,7 +174,7 @@ router.post('/addUser', async (req, res) => {
         }
 
         // 加密密码
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);// 10 为 bcrypt 算法的迭代次数
 
         const addUserQuery = 'INSERT INTO users (username, password) VALUES (?, ?)';
         await connection.query(addUserQuery, [username, hashedPassword]);

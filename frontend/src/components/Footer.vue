@@ -15,6 +15,7 @@
             <el-dropdown-item @click="toggleTheme">切换主题</el-dropdown-item>
             <el-dropdown-item @click="logout">注销</el-dropdown-item>
             <el-dropdown-item @click="goToAiChat">与 AI 对话</el-dropdown-item>
+            <el-dropdown-item @click="comment">产品留言</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -23,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import config from '@/config.js';
 import { ElMessage } from 'element-plus';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -65,7 +67,10 @@ function openLoginWindow() {
   emits('updateVisible', true);
   router.push('/login');
 }
-
+function comment() {
+  // 在新的浏览器窗口中打开留言页面
+  window.open(config.COMMENT_URL, '_blank');
+}
 function openSettings() {
   router.push('/settings'); // 假设您有一个设置页面
 }

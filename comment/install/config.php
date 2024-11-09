@@ -2,7 +2,7 @@
 //带*的为必须填写 by hllqk and shuia created
 $servername = "localhost";//数据库地址
 $username = "root";//数据库账号*
-$password = "123456";//数据库密码*
+$password = "root";//数据库密码*
 $db="comment";//数据库名字*
 $dbb="comments";//表
 $user="admin";//后台账号*

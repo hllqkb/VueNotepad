@@ -12,7 +12,7 @@ function createWindow() {
     },
   });
 
-  win.loadURL('http://localhost:8080'); // 根据您的开发服务器配置更改
+  win.loadURL('http://localhost:8080'); 
 }
 
 app.whenReady().then(createWindow);

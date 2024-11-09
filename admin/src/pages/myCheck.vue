@@ -1,130 +1,132 @@
 <template>
-  <div class="myCheck">
-    <div class="table_box">
-      <!-- 表格主体 -->
-      <el-table :data="this.$store.state.applyInfo" style="width: 100%" stripe border max-height="568">
-        <!-- 文档名称 -->
-        <el-table-column label="文档名称" width="90">
-          <template slot-scope="scope">
-            <span style="margin-left: 0px">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
+    <!-- 文件管理页面 -->
 
-        <!-- 文档类型 -->
-        <el-table-column
-          label="文档类型"
-          width="90"
-          :filters="[ { text: '类型1', value: '类型1' }, { text: '类型2', value: '类型2' } ]"
-          :filter-method="filterType"
-        >
-          <template slot-scope="scope">
-            <span style="margin-left: 0px">{{ scope.row.type }}</span>
-          </template>
-        </el-table-column>
-
-        <!-- 文档状态 -->
-        <el-table-column label="文档状态" width="90">
-          <template slot-scope="scope">
-            <span style="margin-left: 0px">{{ scope.row.status }}</span>
-          </template>
-        </el-table-column>
-      </el-table>
+  <div class="image-manager">
+    <h1>文件管理</h1>
+    <el-upload
+      class="upload-demo"
+      :action="apiUrl + '/api/notes/upload'"
+      list-type="picture-card"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :on-success="handleUploadSuccess"
+      :file-list="fileList"
+    >
+      <i class="el-icon-plus"></i>
+    </el-upload>
+    <el-dialog :visible.sync="dialogVisible" width="50%">
+      <img width="100%" :src="dialogImageUrl" alt="预览图片" />
+    </el-dialog>
+    <div class="image-gallery">
+      <el-image
+        v-for="image in images"
+        :key="image"
+        :src="image"
+        lazy
+        style="width: 200px; height: 200px; margin: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);"
+        @click="handlePreview({ url: image })"
+        @contextmenu.prevent="confirmDelete(image)"
+      >
+        <el-button
+          slot="placeholder"
+          icon="el-icon-delete"
+          size="mini"
+          @click.stop="handleRemoveImage(image)"
+        ></el-button>
+      </el-image>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'myCheck',
+  data() {
+    return {
+      dialogImageUrl: '',
+      dialogVisible: false,
+      images: [], // 存储图片 URL
+      fileList: [], // 存储上传的文件列表
+      apiUrl: process.env.VUE_APP_API_URL_BACKEND // 使用环境变量
+    };
+  },
   methods: {
-    //同意
-    handleAgree(index) {
-      if (this.globalVariable.thePower >= 1) {
-        if (
-          this.$store.state.applyInfo[index].name.length >= 2 &&
-          this.$store.state.applyInfo[index].name.length <= 4
-        ) {
-          // 添加的过程
-          this.dialogFormVisible = false
-          this.$store.state.tableData.unshift({
-            name: this.$store.state.applyInfo[index].name,
-            don: this.$store.state.applyInfo[index].don,
-            fangjian: this.$store.state.applyInfo[index].fangjian,
-            chuang: this.$store.state.applyInfo[index].chuang,
-            school: this.$store.state.applyInfo[index].school,
-            class: this.$store.state.applyInfo[index].class,
-            gender: this.$store.state.applyInfo[index].gender,
-            number: this.$store.state.applyInfo[index].number,
-            phone: this.$store.state.applyInfo[index].phone,
-            homephone: this.$store.state.applyInfo[index].homephone
-          })
-          console.log('已同意')
-          // 弹窗消息
-          this.mySuccess('已同意')
-          // 输出入住申请中得数据
-          this.$store.state.applyInfo.splice(index, 1)
-          console.log('入住申请已删除')
-        } else {
-          this.myWarning('请输入名字')
-        }
-      } else {
-        this.myError('无权限')
-      }
+    handlePreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
-    //拒绝
-    handleDelete(index) {
-      if (this.globalVariable.thePower >= 1) {
-        this.$store.state.applyInfo.splice(index, 1)
-        console.log('入住申请已删除')
-        this.mySuccess('已拒绝')
-      } else {
-        this.myError('无权限')
-      }
+    handleRemove(file) {
+      // 调用删除图片的 API
+      axios.delete(`${this.apiUrl}/api/notes/delete-image/${file.name}`).then(() => {
+        this.$message.success('图片删除成功');
+        this.fetchImages(); // 重新获取图片列表
+      }).catch(() => {
+        this.$message.error('图片删除失败');
+      });
     },
-    // 表头筛选对应宿舍楼
-    filterDon(value, row) {
-      return row.don === value
+    confirmDelete(imageUrl) {
+      this.$confirm('确定要删除这张图片吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.handleRemoveImage(imageUrl);
+      }).catch(() => {
+        this.$message.info('已取消删除');
+      });
     },
-    // 表头筛选对应床号
-    filterChuang(value, row) {
-      return row.chuang === value
+    handleRemoveImage(imageUrl) {
+      const filename = imageUrl.split('/').pop();
+      axios.delete(`${this.apiUrl}/api/notes/delete-image/${filename}`).then(() => {
+        this.$message.success('图片删除成功');
+        this.fetchImages(); // 重新获取图片列表
+      }).catch(() => {
+        this.$message.error('图片删除失败');
+      });
     },
-    // 表头筛选对应学院
-    filterSchool(value, row) {
-      return row.school === value
+    handleUploadSuccess() {
+      this.$message.success('图片上传成功');
+      this.fetchImages(); // 上传成功后重新获取图片列表
     },
-    // 表头筛选对应性别
-    filterGender(value, row) {
-      return row.gender === value
-    },
-    // 表头筛选对应文档类型
-    filterType(value, row) {
-      return row.type === value
+    fetchImages() {
+      // 使用 POST 请求获取所有图片
+      axios.post(`${this.apiUrl}/api/notes/images`).then(response => {
+        this.images = response.data;
+      }).catch(() => {
+        this.$message.error('获取图片失败');
+      });
     }
   },
   mounted() {
-    this.$store.state.now = '文档申请'
+    this.fetchImages(); // 页面加载时获取图片
   }
 }
 </script>
 
 <style scoped>
-/* 大背景 */
-.myCheck {
-  position: absolute;
-  top: 240px;
-  left: 622px;
-  width: 1480px;
-  height: 762px;
-  box-shadow: 0 0 10px rgb(128 145 165 / 20%);
+.image-manager {
+  padding: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 100px;
+  flex-direction: column;
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  position: absolute;
+  top: 250px; /* 向下移动 */
+  right: 200px; /* 向右移动 */
+  transform: translateX(0); /* 调整到中间 */
+  background-color: rgba(255, 255, 255, 0.7); /* 半透明背景 */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* 毛玻璃效果 */
 }
-/* 表格 */
-.table_box {
-  width: 1460px;
-  height: 709px;
-  margin-left: 10px;
+.upload-demo {
+  margin-bottom: 20px;
+}
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* 图片居中 */
 }
 </style>

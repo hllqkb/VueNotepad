@@ -35,14 +35,14 @@
         </div>
       </router-link>
 
-      <!-- 文档申请 -->
+      <!-- 文件管理 -->
       <router-link to="/myCheck" class="router">
         <div class="menu_item">
           <div class="menu_item_pic">
             <i class="el-icon-s-check"></i>
           </div>
           <div class="menu_item_box">
-            <a class="menu_item_box_a">文档申请</a>
+            <a class="menu_item_box_a">文件管理</a>
           </div>
         </div>
       </router-link>

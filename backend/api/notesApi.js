@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../db/db'); // 确保路径正确
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 // 设置 multer 存储选项
 const storage = multer.diskStorage({
@@ -237,6 +238,45 @@ router.post('/update', async (req, res) => {
         console.error('更新笔记失败:', err);
         return res.status(500).json({ error: '更新笔记失败' });
     }
+});
+
+const uploadDir = path.join(__dirname, '../uploads'); // 确保路径正确
+
+// 获取所有图片
+router.post('/images', (req, res) => { // 改为 POST 请求
+  fs.readdir(uploadDir, (err, files) => {
+    if (err) {
+      console.error('读取图片目录失败:', err);
+      return res.status(500).json({ error: '获取图片失败' });
+    }
+    // 过滤出图片文件
+    const imageFiles = files.filter(file => /\.(jpeg|jpg|png|gif)$/i.test(file));
+    const imageUrls = imageFiles.map(file => `${req.protocol}://${req.get('host')}/uploads/${file}`);
+    
+    console.log('获取到的图片URL:', imageUrls);
+    res.json(imageUrls);
+  });
+});
+
+// 删除图片
+router.delete('/delete-image/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(uploadDir, filename);
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error('删除图片失败:', err);
+      return res.status(500).json({ error: '删除图片失败' });
+    }
+    res.json({ message: '图片删除成功' });
+  });
+});
+
+// 上传图片
+router.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: '没有文件上传' });
+  }
+  res.json({ message: '文件上传成功', filename: req.file.filename });
 });
 
 module.exports = router; // 导出路由

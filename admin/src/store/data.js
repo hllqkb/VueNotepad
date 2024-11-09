@@ -1,6 +1,6 @@
 
 export default{
-  // 学生入住信息
+ 
   tableData:[
       { school:'信工学院',don: '8栋',
         name: '张三',fangjian:'629',chuang:'3号床',class:'计科1805',gender:'男',

@@ -1,5 +1,5 @@
-import VueRouter from 'vue-router';
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 //创建并暴露路由器
@@ -40,8 +40,7 @@ const router = new VueRouter({
       component: () => import('../pages/EditNote.vue')
     },
   ],
-});
-export default router;
+});export default router;
 
 
 // 解决跳转时出现报错警告

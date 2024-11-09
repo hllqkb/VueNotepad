@@ -1,4 +1,5 @@
 <template>
+
   <div class="myView">
     <!-- 卡片 -->
     <div class="cardsBox">
@@ -50,6 +51,7 @@ import countTo from 'vue-count-to'
 //引入Echarts
 import * as echarts from 'echarts'
 import axios from 'axios';
+
 
 export default {
   name: 'myView',

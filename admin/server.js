@@ -4,25 +4,82 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const axios = require('axios'); // 引入 axios
 const app = express();
 const bcrypt = require('bcryptjs');
 
-app.use(cors());
+const allowedOrigins = ['http://localhost:3001', 'http://localhost:5173'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // 允许请求的来源为 undefined（如 Postman）或在允许列表中
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
+const API_URL_BACKEND = process.env.VUE_APP_API_URL_BACKEND; // 使用环境变量
 
-// 创建 MySQL 连接
-const db = mysql.createConnection({
+const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
+};
+
+let db;
+
+function handleDisconnect() {
+  db = mysql.createConnection(dbConfig);
+
+  db.connect((err) => {
+    if (err) {
+      console.error('连接数据库失败:', err);
+      setTimeout(handleDisconnect, 2000); // 2秒后重试连接
+    } else {
+      console.log('MySQL connected...');
+    }
+  });
+
+  db.on('error', (err) => {
+    console.error('数据库错误:', err);
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      handleDisconnect(); // 重新连接
+    } else {
+      throw err;
+    }
+  });
+}
+
+handleDisconnect();
+
+// 获取所有图片
+app.post('/api/images', async (req, res) => { // 改为 POST 请求
+  try {
+    const response = await axios.post(`${API_URL_BACKEND}/api/images`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('获取图片失败:', error);
+    res.status(500).json({ error: '获取图片失败' });
+  }
 });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('MySQL connected...');
+// 删除图片
+app.delete('/api/delete-image/:filename', async (req, res) => {
+  const { filename } = req.params;
+  try {
+    const response = await axios.delete(`${API_URL_BACKEND}/api/delete-image/${filename}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('删除图片失败:', error);
+    res.status(500).json({ error: '删除图片失败' });
+  }
 });
 
 // 登录路由

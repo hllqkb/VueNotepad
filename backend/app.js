@@ -48,7 +48,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // CORS 配置
 app.use(cors({
-    origin: 'http://localhost:5173', // 确保这里是你的前端地址
+    origin: ['http://localhost:5173', 'http://localhost:3001', 'http://localhost:3000'], // 确保这里是你的前端地址
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'x-upload-token'] // 添加 'x-upload-token' 到允许的请求头
 }));

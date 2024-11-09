@@ -110,8 +110,10 @@ export default {
           
         }
       } catch (error) {
-        ElMessage.error('连接失败，请检查后端服务!');
-        console.error('后端连接错误: ', error);
+        ElMessage.error('登录失败');
+        this.$store.dispatch('updateVisibility', true);
+        this.$router.push('/login');
+        //console.error('后端连接错误: ', error);
       } finally {
         this.loading = false;
       }

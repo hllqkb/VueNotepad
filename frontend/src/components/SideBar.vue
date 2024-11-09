@@ -145,25 +145,7 @@ watch(searchTerm, (newVal) => {
 });
 
 function addnote() {
-  const note = store.getters.note; // 从 Vuex 中获取笔记内容
-  const title = store.getters.title; // 从 Vuex 中获取标题
-  const newFileName = `${title}.md`; // 生成新的文件名
-  const noteContent = note; // Replace with actual content
-  const account = "testUser"; // Replace with the actual account
 
-  // Send a request to create a new note
-  axios.post(`${config.LOCAL_URL}/api/notes`, {
-    content: noteContent,
-    account: account,
-    fileName: newFileName
-  })
-  .then(response => {
-    console.log('笔记创建成功:', response.data);
-    fetchNotes(); // Refresh the notes list
-  })
-  .catch(error => {
-    console.error('创建笔记失败:', error);
-  });
 
   emits('updateVisible', true);
   router.push('/addnote');

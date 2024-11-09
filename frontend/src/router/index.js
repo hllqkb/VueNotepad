@@ -9,7 +9,7 @@ import ModifyAvatar from '../components/page/ModifyAvatar.vue';
 import Register from '../components/page/Register.vue';
 import Login from '../components/page/Login.vue';
 import AiChat from '../components/page/AiChat.vue';
-
+import AddNote from '../components/page/AddNote.vue';
 const routes = [
     { path: '/', component: Home },
     { path: '/notes/:id', name: 'NoteDetail', component: NoteDetail },
@@ -20,7 +20,8 @@ const routes = [
     { path: '/modifyAvatar', component: ModifyAvatar },
     { path: '/register', component: Register },
     { path: '/login', component: Login },
-    { path: '/ai', component: AiChat }
+    { path: '/ai', component: AiChat },
+    { path: '/addNote', component: AddNote }
 ];
 
 const router = createRouter({

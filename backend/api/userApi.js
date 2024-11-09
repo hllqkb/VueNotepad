@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db'); // 确保这里引用了正确的 db 模块
@@ -50,7 +51,7 @@ router.post('/login', async (req, res) => {
                 return res.status(401).json({ error: '用户名或密码错误' });
             }
             // 用户存在且密码匹配，生成 JWT
-            const token = jwt.sign({ name: user.username }, JWT_SECRET, { expiresIn: '12h' });
+            const token = jwt.sign({ name: user.username }, JWT_SECRET, { expiresIn: '168h' });//7*24=168小时
             return res.status(200).json({ 
                 message: '登录成功', 
                 token, 

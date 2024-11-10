@@ -4,7 +4,10 @@
 
 ### 介绍:😀
 
-![image]([https://github.com/hllqkb/map/blob/master/public/image/20190528145810708.png](https://github.com/MaiEmily/map/blob/master/public/image/20190528145810708.png))
+![https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image.png](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image.png)
+![https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy.png](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy.png)
+![https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%203.png](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%203.png)
+![https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%202.png](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%202.png)
 
 1. 实现创建笔记，删除笔记，添加代办事项，查看笔记，发布笔记，markdown笔记编辑，ai总结，ai对话，主题切换，笔记搜索，账户登录和注册，产品留言，后端笔记管理，图片上传，图片管理，用户等管理的一个单页面多路由的笔记系统
 2. 使用mysql2处理高并发，多个连接池
@@ -44,3 +47,7 @@
 * 添加了更多的表情😅
 * 添加md编辑器高度拖拽功能
 * 添加文本字数统计
+
+#### 数据表结构
+
+![https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%204.png](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%204.png)

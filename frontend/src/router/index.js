@@ -6,6 +6,7 @@ import Profile from '../components/page/Profile.vue';
 import ModifyUser from '../components/page/ModifyUser.vue';
 import ModifyPassword from '../components/page/ModifyPassword.vue';
 import ModifyAvatar from '../components/page/ModifyAvatar.vue';
+import ModifyBackground from '../components/page/ModifyBackground.vue';
 import Register from '../components/page/Register.vue';
 import Login from '../components/page/Login.vue';
 import AiChat from '../components/page/AiChat.vue';
@@ -18,6 +19,7 @@ const routes = [
     { path: '/modifyUser', component: ModifyUser },
     { path: '/modifyPassword', component: ModifyPassword },
     { path: '/modifyAvatar', component: ModifyAvatar },
+    { path: '/modifyBackground', component: ModifyBackground },
     { path: '/register', component: Register },
     { path: '/login', component: Login },
     { path: '/ai', component: AiChat },

@@ -8,11 +8,11 @@
 </template>
 
 <script>
+import config from '@/config';
 import axios from 'axios'; // 导入 Axios
 import { ElMessage } from 'element-plus';
 import Vditor from 'vditor';
 import 'vditor/dist/index.css';
-import config from '@/config';
 
 export default {
   computed: {
@@ -50,10 +50,69 @@ export default {
   methods: {
     initVditor() {
       this.vditor = new Vditor('vditor', {
-        height: "calc(100vh)",
         width: '100%',
-        autoHeight: true,
+        height: 'calc(100vh - 100px)', // 固定高度
         placeholder: '请输入内容...',
+        "toolbarConfig": {
+          "pin": true
+        },
+        hint: {
+          emoji: {
+            "grinning": "😀",
+            "smiley": "😃",
+            "smile": "😄",
+            "grin": "😁",
+            "laughing": "😆",
+            "sweat_smile": "😅",
+            "joy": "😂",
+            "blush": "😊",
+            "wink": "😉",
+            "eyes": "👀",
+            "relieved": "😌",
+            "heart_eyes": "😍",
+            "kissing_heart": "😘",
+            "yum": "😋",
+            "stuck_out_tongue_winking_eye": "😜",
+            "stuck_out_tongue_closed_eyes": "😝",
+            "sunglasses": "😎",
+            "smirk": "😏",
+            "unamused": "😒",
+            "worried": "😟",
+            "confused": "😕",
+            "fearful": "😖",
+            "weary": "😫",
+            "tired_face": "😩",
+            "angry": "😠",
+            "astonished": "😲",
+            "dizzy": "😵",
+            "flushed": "😳",
+            "scream": "😱",
+            "fear": "😨",
+            "cry": "😢",
+            "sob": "😭",
+            "mask": "😷",
+            "raised_hand": "✋",
+            "v": "✌️",
+            "punch": "👊",
+            "wave": "👋",
+            "clap": "👏",
+            "thumbsup": "👍",
+            "thumbsdown": "👎",
+            "heart": "❤️",
+            "tada": "🎉",
+            "rocket": "🚀"
+          }
+        },
+        resize:{
+          enable: true
+        },  
+        outline: {
+          enable: true
+        },
+        counter: {
+          enable: true,
+          type: 'text'
+        },
         preview: {
           hljs: {
             lineNumber: true,
@@ -64,29 +123,19 @@ export default {
           accept: 'image/*,.mp3,.wav,.rar',
           token: 'test',
           url: config.API_BASE_URL + '/api/notes/upload/editor',
-          linkToImgUrl: config.API_BASE_URL + '/api/notes/upload/fetch',
 
-          filename (name) {
+          filename(name) {
             return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
               .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
               .replace(/\s/g, ''); // 修正正则表达式以正确移除空格
           },
           fieldName: 'image', // 确保字段名与后端一致
-          
-          success: (responseText,msg) => {
-            console.log('上传响应文本:', msg); // 添加日志
-            // 上传成功后，插入图片
-            // 插入图片的格式为 ![图片描述](图片URL)
-            // 图片描述为msg.data.filename  
-            // 图片URL为msg.data.url
-            // 图片描述为msg.data.filename
-            //转成json
+          success: (responseText, msg) => {
             const msgJson = JSON.parse(msg);
             ElMessage.success('上传文件成功');
             this.vditor.insertValue('![' + msgJson.data.filename + '](' + msgJson.data.url + ')');
           },
           error: (err) => {
-            console.log('上传错误:', err); // 添加日志
             ElMessage.error('上传文件失败: ' + err.message);
           }
         },
@@ -95,11 +144,16 @@ export default {
         },
         input: () => {
           this.isContentChanged = true; // 标志内容已变化
+          this.scrollToBottom(); // 内容变化时自动滚动到底部
         },
       });
-      
+
       // 直接使用 Vue 的事件绑定方式
       this.$refs.vditor.addEventListener('blur', this.handleBlur);
+    },
+    scrollToBottom() {
+      const vditorContent = document.querySelector('.vditor');
+      vditorContent.scrollTop = vditorContent.scrollHeight; // 滚动到内容底部
     },
     handleMessageChange(newValue) {
       this.updateTheme(newValue);
@@ -123,7 +177,7 @@ export default {
         newContent: content,
         account: account, // 添加账户信息
         fileName: fileName // 添加文件名
-      },{
+      }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -150,13 +204,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 80px);
+  margin-bottom: -30px;
 }
 
-#vditor {
-  flex: 1;
-  width: 100%;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-}
 </style>

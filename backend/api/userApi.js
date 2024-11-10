@@ -281,4 +281,27 @@ router.post('/uploadAvatar', authenticateJWT, upload.single('avatar'), async (re
     }
 });
 
+// 上传背景图片的 API
+router.post('/uploadBackground', authenticateJWT, upload.single('background'), async (req, res) => {
+    if (!req.file) {
+        console.error('文件上传失败');
+        return res.status(400).json({ error: '文件上传失败' });
+    }
+
+    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    const currentUsername = req.user.name; // 现在 req.user 应该被正确设置
+    let connection;
+    try {
+        connection = await db.getConnection(); // 从连接池获取连接
+        const updateQuery = 'UPDATE users SET background = ? WHERE username = ?';
+        await connection.query(updateQuery, [fileUrl, currentUsername]);
+        res.json({ code: 0, message: '背景图片上传成功', url: fileUrl });
+    } catch (error) {
+        console.error('上传背景图片时出错:', error);
+        res.status(500).json({ error: '上传背景图片时出错' });
+    } finally {
+        if (connection) connection.release(); // 确保连接被释放
+    }
+});
+
 module.exports = router; // 导出路由

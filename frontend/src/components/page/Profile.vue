@@ -15,8 +15,10 @@
       <el-button type="primary" @click="editProfile">修改个人信息</el-button>
       <el-button type="warning" @click="changePassword">修改密码</el-button>
       <el-button type="info" @click="showModifyAvatar">修改头像</el-button>
+      <el-button type="success" @click="showModifyBackground">修改背景</el-button>
     </div>
     <ModifyAvatar v-if="isModifyAvatarVisible" @close="isModifyAvatarVisible = false" />
+    <ModifyBackground v-if="isModifyBackgroundVisible" @close="isModifyBackgroundVisible = false" />
   </div>
 </template>
 
@@ -24,11 +26,13 @@
 import config from '@/config.js';
 import axios from 'axios';
 import ModifyAvatar from './ModifyAvatar.vue';
+import ModifyBackground from './ModifyBackground.vue';
 
 export default {
   name: 'Profile',
   components: {
-    ModifyAvatar
+    ModifyAvatar,
+    ModifyBackground
   },
   data() {
     return {
@@ -36,12 +40,16 @@ export default {
       notes: [],
       avatar: '',
       background: '',
-      isModifyAvatarVisible: false
+      isModifyAvatarVisible: false,
+      isModifyBackgroundVisible: false
     };
   },
   methods: {
     showModifyAvatar() {
       this.$router.push('/modifyAvatar');
+    },
+    showModifyBackground() {
+      this.$router.push('/modifyBackground');
     },
     async fetchUserDetails() {
       try {

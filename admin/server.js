@@ -44,6 +44,7 @@ function handleDisconnect() {
       setTimeout(handleDisconnect, 2000); // 2秒后重试连接
     } else {
       console.log('MySQL connected...');
+      checkAndCreateAdminTable(); // 检查并创建 admin 表
     }
   });
 
@@ -58,6 +59,39 @@ function handleDisconnect() {
 }
 
 handleDisconnect();
+
+// 检查并创建 admin 表
+function checkAndCreateAdminTable() {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS admin (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL
+    )
+  `;
+
+  db.query(createTableQuery, (err) => {
+    if (err) throw err;
+    console.log('admin 表已检查或创建');
+
+    // 检查是否存在默认用户
+    const checkUserQuery = 'SELECT * FROM admin WHERE username = ?';
+    db.query(checkUserQuery, ['admin'], (err, results) => {
+      if (err) throw err;
+      if (results.length === 0) {
+        // 如果不存在，则插入默认用户
+        const insertUserQuery = 'INSERT INTO admin (username, password) VALUES (?, ?)';
+        const defaultPassword = bcrypt.hashSync('123456', 10); // 加密默认密码
+        db.query(insertUserQuery, ['admin', defaultPassword], (err) => {
+          if (err) throw err;
+          console.log('默认用户已插入到 admin 表');
+        });
+      } else {
+        console.log('默认用户已存在');
+      }
+    });
+  });
+}
 
 // 获取所有图片
 app.post('/api/images', async (req, res) => { // 改为 POST 请求
@@ -85,12 +119,21 @@ app.delete('/api/delete-image/:filename', async (req, res) => {
 // 登录路由
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-  const query = 'SELECT * FROM admin WHERE username = ? AND password = ?';
+  const query = 'SELECT * FROM admin WHERE username = ?';
   
-  db.query(query, [username, password], (err, results) => {
+  db.query(query, [username], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
-      res.json({ success: true, message: 'Login successful' });
+      // 使用 bcrypt 验证密码
+      const hashedPassword = results[0].password;
+      bcrypt.compare(password, hashedPassword, (err, isMatch) => {
+        if (err) throw err;
+        if (isMatch) {
+          res.json({ success: true, message: 'Login successful' });
+        } else {
+          res.json({ success: false, message: 'Invalid credentials' });
+        }
+      });
     } else {
       res.json({ success: false, message: 'Invalid credentials' });
     }

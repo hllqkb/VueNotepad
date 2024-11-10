@@ -4,218 +4,148 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-<<<<<<< HEAD
+
 <br />
+
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/icon.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h1 align="center">Vue Notepad</h1>
+<h1 align="center">Vue Notepad</h1>
 
-  <p align="center">
-    一款前后端分离的现代桌面笔记应用!
+<p align="center">
+    A modern desktop note-taking application with a front-end and back-end separation!
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/hllqkb/VueNotepad/blob/master/API.md"><strong>Explore the API docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://github.com/hllqkb/VueNotepad/blob/master/README_CN.md">中文文档</a> 
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/hllqkb/VueNotepad/blob/master/README.md">英文文档</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/hllqkb/VueNotepad/issues/new?labels=enhancement&template=feature-request---.md">报告BUG</a>
   </p>
 </div>
 
+## 🚀 About Vue Notepad 🚀
 
-## 🚀 关于 Vue Notepad 🚀
+### Introduction: 😀
 
-### 介绍：😀
+Vue Notepad is an advanced desktop note-taking application that employs a front-end and back-end separation architecture. Below are screenshots of the application's interface and features.
+![Vue Notepad Screenshot](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image.png)
+![Vue Notepad Screenshot](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy.png)
+![Vue Notepad Screenshot](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%203.png)
+![Vue Notepad Screenshot](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%202.png)
 
-Vue Notepad 是一款采用前后端分离架构的先进桌面笔记应用。以下是一些应用界面和功能的截图。
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image.png)
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy.png)
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%203.png)
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%202.png)
+#### Core Features:
 
-#### 核心功能：
+1. **Comprehensive Note Management**: Easily create, delete, and manage notes, to-do lists, and Markdown content. Features include AI summarization, AI conversation, theme switching, and note searching.
+2. **Powerful User System**: Secure account login, registration, and user management, along with back-end note management.
+3. **Media Handling**: Seamlessly upload and manage images within the note environment.
+4. **Interactive Feedback**: A product message system for collecting user feedback.
 
-1. **全面的笔记管理**：轻松创建、删除和管理笔记、待办事项和 Markdown 内容。功能包括 AI 摘要、AI 对话、主题切换和笔记搜索。
-2. **强大的用户系统**：安全的账户登录、注册和用户管理，以及后端笔记管理。
-3. **媒体处理**：在笔记环境中无缝上传和管理图片。
-4. **互动反馈**：产品留言系统，用于收集用户反馈。
+#### Technical Highlights:
 
-#### 技术亮点：
+1. **Database Management**: Utilizes `mysql2` and handles high concurrency through connection pooling.
+2. **Security**: Secure data processing with JWT, back-end request interceptors, and middleware for JWT header validation.
+3. **Email Notifications**: Efficiently sends emails using message queues.
+4. **Caching and Security**: Redis is used to prevent DDoS attacks and page caching. bcrypt is used for password hashing to prevent rainbow table attacks.
+5. **Environment Configuration**: Sensitive information is stored in `.env` files.
+6. **SQL Injection Protection**: Uses secure SQL syntax to reduce the risk of injection.
+7. **File Upload Security**: Verifies files during the upload process.
 
-1. **数据库管理**：使用 `mysql2` 并通过连接池处理高并发。
-2. **安全性**：使用 JWT 进行安全的数据处理，后端请求拦截器和中间件用于 JWT 头部验证。
-3. **邮件通知**：使用消息队列高效发送电子邮件。
-4. **缓存与安全**：Redis 用于防止 DDoS 攻击和页面缓存。bcrypt 用于密码哈希，防止彩虹表攻击。
-5. **环境配置**：敏感信息存储在 `.env` 文件中。
-6. **SQL 注入防护**：使用安全的 SQL 语法来降低注入风险。
-7. **文件上传安全**：在上传过程中验证文件。
+### Main Languages
 
-### 主要语言
+This section should list the main frameworks/libraries used to bootstrap your project. Leave any additional components/plugins for the acknowledgments section. Here are some examples.
 
-这一部分应该列出用于启动您的项目的主要框架/库。将任何附加组件/插件留到致谢部分。以下是一些示例。
+* [![Next][Next.js]][Next-url]https://nextjs.org/
+* [![React][React.js]][React-url]https://reactjs.org/
+* [![Vue][Vue.js]][Vue-url]https://vuejs.org/
+* [![Angular][Angular.io]][Angular-url]https://angular.io/
+* [![Svelte][Svelte.dev]][Svelte-url]https://svelte.dev/
+* [![Laravel][Laravel.com]][Laravel-url]https://laravel.com
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]https://getbootstrap.com
+* [![JQuery][JQuery.com]][JQuery-url]https://jquery.com
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+### Technology Stack: 😎
 
-### 技术栈：😎
+- **Front-end**: A single-page desktop application built with Vue3, Vite, Vuex, ElementUI Plus, Vue Router, Electron, Axios, Fuse.js, and Vditor.
+- **Local Back-end**: Node.js environment.
+- **Server Back-end**: A powerful back-end setup, including Node.js, PHP, Python, Express, Redis, mysql2, CORS, bcrypt, JWT, and Multer.
+- **Database**: Uses MySQL for data persistence.
+- **Management Panel**: An intuitive interface for back-end management.
+- **Comment System**: User interaction implemented with PHP, Bootstrap, and jQuery.
 
-- **前端**：使用 Vue3、Vite、Vuex、ElementUI Plus、Vue Router、Electron、Axios、Fuse.js 和 Vditor 构建的单页面桌面应用。
-- **本地后端**：Node.js 环境。
-- **服务器后端**：强大的后端设置，包括 Node.js、PHP、Python、Express、Redis、mysql2、CORS、bcrypt、JWT 和 Multer。
-- **数据库**：使用 MySQL 进行数据持久化。
-- **管理面板**：用于后端管理的直观界面。
-- **评论系统**：使用 PHP、Bootstrap 和 jQuery 实现用户交互。
+### Installation Guide: 😘
 
-### 安装指南：😘
+#### Prerequisites:
 
-#### 前提条件：
+Before proceeding, ensure that PHP, Python, and Node.js environments, along with the .env configuration, are correctly set up.
 
-在继续之前，请确保 PHP、Python 和 Node.js 环境和.env已正确配置。
+#### Installation Steps:
 
-#### 安装步骤：
-1.Clone the repo
-`git clone https://github.com/github_username/repo_name.git`
-
-2.安装 `cnpm` 后，只需运行提供的单键启动脚本即可启动应用程序。
-=======
+1. Clone the repo
+git clone https://github.com/github_username/repo_name.git
 
 
-<br />
-<div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+2. After installing `cnpm`, simply run the provided one-click startup script to launch the application.
 
-  <h3 align="center">Best-README-Template</h3>
+### Documentation:
 
-  <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
-</div>
+The default administrator account is `admin` with a password of `123456`.
 
-# Vue Notepad：一款前后端分离的现代桌面笔记应用
+### Update Log (Newest to Oldest): 😁
 
-## 🚀 关于 Vue Notepad 🚀
+- **Emoji Enhancement**: Added more emojis for users to choose from.
+- **Markdown Editor Upgrade**: Implemented the ability to adjust the editor's height.
+- **Word Count Feature**: Introduced a text word count feature for better content management.
 
-### 介绍：😀
+#### Database Architecture:
 
-Vue Notepad 是一款采用前后端分离架构的先进桌面笔记应用。以下是一些应用界面和功能的截图。
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image.png)
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy.png)
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%203.png)
-![Vue Notepad 截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%202.png)
-
-#### 核心功能：
-
-1. **全面的笔记管理**：轻松创建、删除和管理笔记、待办事项和 Markdown 内容。功能包括 AI 摘要、AI 对话、主题切换和笔记搜索。
-2. **强大的用户系统**：安全的账户登录、注册和用户管理，以及后端笔记管理。
-3. **媒体处理**：在笔记环境中无缝上传和管理图片。
-4. **互动反馈**：产品留言系统，用于收集用户反馈。
-
-#### 技术亮点：
-
-1. **数据库管理**：使用 `mysql2` 并通过连接池处理高并发。
-2. **安全性**：使用 JWT 进行安全的数据处理，后端请求拦截器和中间件用于 JWT 头部验证。
-3. **邮件通知**：使用消息队列高效发送电子邮件。
-4. **缓存与安全**：Redis 用于防止 DDoS 攻击和页面缓存。bcrypt 用于密码哈希，防止彩虹表攻击。
-5. **环境配置**：敏感信息存储在 `.env` 文件中。
-6. **SQL 注入防护**：使用安全的 SQL 语法来降低注入风险。
-7. **文件上传安全**：在上传过程中验证文件。
-
-### 技术栈：😎
-
-- **前端**：使用 Vue3、Vite、Vuex、ElementUI Plus、Vue Router、Electron、Axios、Fuse.js 和 Vditor 构建的单页面桌面应用。
-- **本地后端**：Node.js 环境。
-- **服务器后端**：强大的后端设置，包括 Node.js、PHP、Python、Express、Redis、mysql2、CORS、bcrypt、JWT 和 Multer。
-- **数据库**：使用 MySQL 进行数据持久化。
-- **管理面板**：用于后端管理的直观界面。
-- **评论系统**：使用 PHP、Bootstrap 和 jQuery 实现用户交互。
-
-### 安装指南：😘
-
-#### 前提条件：
-
-在继续之前，请确保 PHP、Python 和 Node.js 环境已正确配置。
-
-#### 安装步骤：
-
-安装 `cnpm` 后，只需运行提供的单键启动脚本即可启动应用程序。
->>>>>>> 69cb78b5afc45d1492e49aeff68447f57eafdaaa
-
-### 文档：
-
-默认管理员账户为 `admin`，密码为 `123456`。
-
-### 更新日志（从新到旧）：😁
-
-- **表情符号增强**：增加了更多表情符号供用户选择。
-- **Markdown 编辑器升级**：实现了调整编辑器高度的功能。
-- **字数统计功能**：新增文本字数统计功能，以便更好地管理内容。
-
-#### 数据库架构：
-
-![数据库架构截图](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%204.png)
-Vue Notepad 旨在为用户提供友好且高效的使用体验，注重安全性和性能。应用的模块化架构确保了可扩展性和易于维护，使其成为重视生产力和隐私用户的理想选择。
+![Database Architecture Screenshot](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%204.png)
+Vue Notepad is designed to provide users with a friendly and efficient experience, focusing on security and performance. The application's modular architecture ensures scalability and ease of maintenance, making it an ideal choice for users who value productivity and privacy.
 <<<<<<< HEAD
 
-### 联系
+### Contact
+
 hllqk - @hllqkb - hllqkb@gmail.com
 
-Project Link: https://github.com/hllqk/VueNotepad
-### 贡献
-贡献是开源社区成为一个令人惊叹的学习、启发和创造的地方的原因。您所做出的任何贡献都非常受到感激。
-如果您有建议可以改进这个项目，以下是一些步骤指南：
+Project Link: https://github.com/hllqk/VueNotepad 
 
-1. **Fork项目**
-   使用GitHub的Fork按钮来创建项目的副本。
-   
-2. **创建您的特性分支**
-   ```bash
-   git checkout -b feature/AmazingFeature
+### Contributing
 
-在您自己的仓库中创建一个新的分支，用于开发您的特性。
+Contributions are what make the open source community such a wonderful place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+If you have suggestions for improving this project, here are some step-by-step guidelines:
 
-提交您的更改
+1. **Fork the Project**
+Use GitHub's Fork button to create a copy of the project.
 
-`git commit -m '添加一些AmazingFeature'`
+2. **Create Your Feature Branch**
 
-提交您的更改，并附上清晰的提交信息。
+  git checkout -b feature/AmazingFeature
+  Create a new branch in your fork for development of your feature.
 
-推送到分支
+Commit your changes
 
-`git push origin feature/AmazingFeature`
+git commit -m 'Add some AmazingFeature'
+Commit your changes with a clear message.
 
-将您的特性分支推送到远程仓库。
+Push to the branch
 
-开启一个Pull请求
+git push origin feature/AmazingFeature
+Push your feature branch to the remote repository.
 
-通过GitHub界面，从您的特性分支向原仓库的主分支发起一个Pull请求。
+Open a Pull Request
 
-别忘了给项目点个星！感谢您的贡献！
+Initiate a Pull Request through the GitHub interface from your feature branch to the main branch of the original repository.
 
-如果您想要提出改进建议，也可以直接打开一个带有“enhancement”标签的问题。
+Don't forget to star the project! Thanks for your contribution!
 
-再次感谢您的参与和支持！
+If you wish to propose improvements, you can also open an issue with the “enhancement” label.
+
+Thank you again for your participation and support!
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
@@ -247,5 +177,3 @@ Project Link: https://github.com/hllqk/VueNotepad
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
-=======
->>>>>>> 69cb78b5afc45d1492e49aeff68447f57eafdaaa

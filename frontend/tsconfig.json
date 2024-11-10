@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -13,14 +15,18 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "skipLibCheck": false,
+    "skipLibCheck": true,// 跳过库检查
     "noImplicitAny": true,
     "noEmit": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "typeRoots": [
       "./node_modules/@types",
       "./types"
     ]
   },
+  "types": ["node"],
   "include": ["src", "localbackend"],
   "references": [
     { "path": "./tsconfig.node.json" }

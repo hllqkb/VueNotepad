@@ -24,6 +24,9 @@
     "build": "vue-tsc --noEmit && vite build && electron-builder",
     "preview": "vite preview"
   },
+  "electronDownload": {
+    "mirror": "https://npm.taobao.org/mirrors/electron/"
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
     "electron": "^29.1.1",

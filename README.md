@@ -20,11 +20,11 @@
     <a href="https://github.com/hllqkb/VueNotepad/blob/master/API.md"><strong>Explore the API docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/hllqkb/VueNotepad/blob/master/README_CN.md">中文文档</a> 
+    <a href="https://github.com/hllqkb/VueNotepad/blob/master/README_CN.md">Chinese Documentation</a> 
     ·
-    <a href="https://github.com/hllqkb/VueNotepad/blob/master/README.md">英文文档</a>
+    <a href="https://github.com/hllqkb/VueNotepad/blob/master/README.md">English Documentation</a>
     ·
-    <a href="https://github.com/hllqkb/VueNotepad/issues/new?labels=enhancement&template=feature-request---.md">报告BUG</a>
+    <a href="https://github.com/hllqkb/VueNotepad/issues/new?labels=enhancement&template=feature-request---.md">Report a Bug</a>
   </p>
 </div>
 
@@ -83,6 +83,25 @@ This section should list the main frameworks/libraries used to bootstrap your pr
 
 Before proceeding, ensure that PHP, Python, and Node.js environments, along with the .env configuration, are correctly set up.
 
+
+admin/.env file needs to be configured with database information.
+
+```bash
+VUE_APP_API_URL=http://localhost:3000 // admin backend address
+VUE_APP_API_URL_BACKEND=http://localhost:4000 // backend address
+DB_HOST=localhost // database address
+DB_USER=root // database username
+DB_PASSWORD=root // database password
+DB_NAME=test // database name
+PORT=3000 // port
+```
+
+backend/.env file needs to be configured with database information.
+
+```bash
+JWT_SECRET=your_secret_key_here // JWT secret key
+```
+
 #### Installation Steps:
 
 1. Clone the repo
@@ -105,7 +124,6 @@ The default administrator account is `admin` with a password of `123456`.
 
 ![Database Architecture Screenshot](https://raw.githubusercontent.com/hllqkb/VueNotepad/refs/heads/master/public/image%20copy%204.png)
 Vue Notepad is designed to provide users with a friendly and efficient experience, focusing on security and performance. The application's modular architecture ensures scalability and ease of maintenance, making it an ideal choice for users who value productivity and privacy.
-<<<<<<< HEAD
 
 ### Contact
 

@@ -1,4 +1,4 @@
-// utils.js
+// @ts-ignore
 import { ElMessage } from 'element-plus';
 export default {
   showMessage(message) {

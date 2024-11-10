@@ -82,6 +82,24 @@ Vue Notepad 是一款采用前后端分离架构的先进桌面笔记应用。�
 
 在继续之前，请确保 PHP、Python 和 Node.js 环境和.env已正确配置。
 
+admin/.env 文件中需要配置数据库信息。
+
+```bash
+VUE_APP_API_URL=http://localhost:3000 // admin后端地址
+VUE_APP_API_URL_BACKEND=http://localhost:4000 // backend后端地址
+DB_HOST=localhost // 数据库地址
+DB_USER=root // 数据库用户名
+DB_PASSWORD=root // 数据库密码
+DB_NAME=test // 数据库名称
+PORT=3000 // 端口
+```
+
+backend/.env 文件中需要配置数据库信息。
+
+```bash
+JWT_SECRET=your_secret_key_here // JWT密钥
+```
+
 #### 安装步骤：
 
 1.Clone the repo

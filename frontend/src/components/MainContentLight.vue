@@ -38,13 +38,21 @@ export default {
   name: 'VditorEditor',
   mounted() {
     this.initVditor();
+    // 确保 Vditor 实例初始化后再设置值
+    this.$nextTick(() => {
+      if (this.note) {
+        this.vditor.setValue(this.note);
+      }
+    });
   },
   watch: {
     message(newValue) {
       this.handleMessageChange(newValue);
     },
     note(newValue) {
-      this.vditor.setValue(newValue);
+      if (this.vditor) {
+        this.vditor.setValue(newValue);
+      }
     },
   },
   methods: {
@@ -148,7 +156,7 @@ export default {
         },
       });
 
-      // 直接使用 Vue 的事件绑定方式
+      // 确保 Vditor 实例已存在
       this.$refs.vditor.addEventListener('blur', this.handleBlur);
     },
     scrollToBottom() {
@@ -172,7 +180,7 @@ export default {
       const fileName = title; // 假设文件名与标题相同
 
       const token = localStorage.getItem('jwt');
-      axios.post(config.LOCAL_URL + '/api/notes/update', {
+      axios.post(`${config.LOCAL_URL}/api/notes/update`, {
         title: title,
         newContent: content,
         account: account, // 添加账户信息
@@ -186,6 +194,7 @@ export default {
         ElMessage.success('文件更新成功');
         this.$store.dispatch('updateNote');
         this.isContentChanged = false;
+        window.location.reload(); // 保存后刷新页面
       })
       .catch(error => {
         if (error.response) {

@@ -26,7 +26,7 @@
         <div class="notes-list">
           <el-menu-item 
             v-for="(note, index) in filteredNotes" 
-            :key="note.fileName" 
+            :key="note.fileName" :noteId="note.id"
             :index="`2-${index + 1}`"
             @click="fetchFileContent(note.fileName); setCurrentNoteId(note.id)"
           >
@@ -63,12 +63,12 @@
 </template>
 
 <script setup>
-import { Calendar, Clock, Edit, Plus, Search, Close } from '@element-plus/icons-vue';
-import axios from 'axios';
 import config from '@/config.js'; // Import the config
+import { Calendar, Clock, Close, Edit, Plus, Search } from '@element-plus/icons-vue';
+import axios from 'axios';
 import Fuse from 'fuse.js'; // Import Fuse.js
 
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -101,11 +101,14 @@ const fetchNotes = async () => {
   }
 };
 
-const fetchFileContent = async (fileName) => {
+const fetchFileContent = async (fileName, noteId) => {
   try {
     const response = await axios.get(`${config.LOCAL_URL}/api/notes/${fileName}`); // Use LOCAL_URL
     store.commit('setNote', response.data.content);
     store.commit('setTitle', response.data.title);
+    //setCurrentNoteId(noteId);
+    //localStorage.setItem('lastOpenedNote', noteId); // 保存当前笔记 ID
+
   } catch (error) {
     console.error('获取文件内容失败:', error);
   }
@@ -113,21 +116,36 @@ const fetchFileContent = async (fileName) => {
 
 const setCurrentNoteId = (noteId) => {
   store.commit('setCurrentNoteId', noteId); // 更新当前笔记 ID
+  console.log(noteId);
+  localStorage.setItem('lastOpenedNote', noteId); // 保存当前笔记 ID
 };
 
 const fetchTodos = async () => {
-  const account = "testUser"; // 这里可以替换为当前登录的用户名
+  const username = localStorage.getItem('username');
   try {
-    const response = await axios.get(`${config.API_BASE_URL}/api/notes/todos/${account}`);
+    const response = await axios.get(`${config.API_BASE_URL}/api/notes/todos/${username}`);
     todos.value = response.data; // 设置代办事项
   } catch (error) {
     console.error('获取待办事项失败:', error);
   }
 };
 
-onMounted(() => {
-  fetchNotes();
-  fetchTodos(); // 组件挂载时获取代办事项
+onMounted(async () => {
+  await fetchNotes();
+  await fetchTodos();
+
+  const lastOpenedNote = localStorage.getItem('lastOpenedNote');
+  console.log(lastOpenedNote);
+  if (lastOpenedNote) {
+  const noteElement = document.querySelector(`li[noteid="${lastOpenedNote}"]`);
+  if (noteElement) {
+    setTimeout(() => {
+      noteElement.click();
+    }, 300);//延迟300ms,等待页面加载完成
+  }
+  }
+ 
+
   watch(() => props.currenttheme, (newVal) => {
     if (newVal) {
       document.documentElement.style.setProperty('--el-menu-bg-color', '#333');

@@ -46,7 +46,8 @@
   
   const addTodo = async () => {
     if (todoText.value) {
-      const account = "testUser"; // 这里可以替换为当前登录的用户名
+      
+      const account = localStorage.getItem('username');
       try {
         const response = await axios.post(`${config.API_BASE_URL}/api/notes/todos`, {
           content: todoText.value,

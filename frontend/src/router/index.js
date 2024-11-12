@@ -1,16 +1,16 @@
+import NoteDetail from '@/components/NoteDetail.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/common/Home.vue';
-import NoteDetail from '@/components/NoteDetail.vue';
+import AddNote from '../components/page/AddNote.vue';
+import AiChat from '../components/page/AiChat.vue';
 import Calendar from '../components/page/Calendar.vue';
-import Profile from '../components/page/Profile.vue';
-import ModifyUser from '../components/page/ModifyUser.vue';
-import ModifyPassword from '../components/page/ModifyPassword.vue';
+import Login from '../components/page/Login.vue';
 import ModifyAvatar from '../components/page/ModifyAvatar.vue';
 import ModifyBackground from '../components/page/ModifyBackground.vue';
+import ModifyPassword from '../components/page/ModifyPassword.vue';
+import ModifyUser from '../components/page/ModifyUser.vue';
+import Profile from '../components/page/Profile.vue';
 import Register from '../components/page/Register.vue';
-import Login from '../components/page/Login.vue';
-import AiChat from '../components/page/AiChat.vue';
-import AddNote from '../components/page/AddNote.vue';
 const routes = [
     { path: '/', component: Home },
     { path: '/notes/:id', name: 'NoteDetail', component: NoteDetail },

@@ -63,10 +63,10 @@
 </template>
 
 <script setup>
-import config from '@/config.js'; // Import the config
+import config from '@/config.js';
 import { Calendar, Clock, Close, Edit, Plus, Search } from '@element-plus/icons-vue';
 import axios from 'axios';
-import Fuse from 'fuse.js'; // Import Fuse.js
+import Fuse from 'fuse.js';
 
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -103,7 +103,7 @@ const fetchNotes = async () => {
 
 const fetchFileContent = async (fileName, noteId) => {
   try {
-    const response = await axios.get(`${config.LOCAL_URL}/api/notes/${fileName}`); // Use LOCAL_URL
+    const response = await axios.get(`${config.LOCAL_URL}/api/notes/${fileName}`); // LOCAL_URL
     store.commit('setNote', response.data.content);
     store.commit('setTitle', response.data.title);
     //setCurrentNoteId(noteId);
@@ -193,16 +193,13 @@ function handleSearch(query) {
 
 const handleTodoChange = async (todo) => {
   if (todo.completed) {
-    // Remove the todo from the frontend
     todos.value = todos.value.filter(t => t.id !== todo.id);
 
-    // Send a request to the backend to delete the todo
     try {
       await axios.delete(`${config.API_BASE_URL}/api/notes/todos/${todo.id}`);
       console.log(`Todo with id ${todo.id} deleted successfully.`);
     } catch (error) {
       console.error('删除待办事项失败:', error);
-      // Optionally, you can add the todo back to the list if the deletion fails
       todos.value.push(todo);
     }
   }
@@ -216,10 +213,11 @@ const deleteNote = async (fileName) => {
   try {
     await axios.delete(`${config.LOCAL_URL}/api/deletenotes/${fileName}`);
     console.log(`Note with fileName ${fileName} deleted successfully.`);
+  // Refresh the page
+  window.location.reload();
   } catch (error) {
     console.error('删除笔记失败:', error);
-    // Optionally, you can add the note back to the list if the deletion fails
-    notesList.value.push({ fileName }); // You may need to restore the note details if available
+    notesList.value.push({ fileName }); 
   }
 };
 </script>
@@ -235,8 +233,8 @@ const deleteNote = async (fileName) => {
 }
 
 .todo-timestamp {
-  margin-left: 10px; /* Add some spacing for the timestamp */
-  font-size: 0.8em; /* Smaller font for the timestamp */
-  color: #888; /* Lighter color for the timestamp */
+  margin-left: 10px;
+  font-size: 0.8em;
+  color: #888; 
 }
 </style>

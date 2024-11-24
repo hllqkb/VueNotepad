@@ -138,7 +138,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p style="text-align: center">版权所有@1830510黄朝杰</p>
+            <p style="text-align: center">版权所有@hllqkb</p>
         </div>
     </div>
 </div>

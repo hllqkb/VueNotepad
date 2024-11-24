@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>留言板</title>
+    <title>Vue Notepad留言板</title>
     <?php require_once("include/start.php");include "include/nav.php"; ?>
     </head>
 <style>

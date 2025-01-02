@@ -70,22 +70,22 @@ router.post('/login', async (req, res) => {
 // 中间件：验证 JWT
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    console.log('Authorization Header:', authHeader); // Confirm if the header is received
+    console.log('Authorization Header:', authHeader); // 确认是否收到 header
     if (authHeader && authHeader.startsWith('Bearer ')) {
-        const token = authHeader.slice(7, authHeader.length); // Extract token
-        console.log('Extracted Token:', token); // Log the extracted token
+        const token = authHeader.slice(7, authHeader.length); // 提取 token
+        console.log('Extracted Token:', token); // 日志提取的 token
         jwt.verify(token, JWT_SECRET, (err, user) => {
             if (err) {
-                console.log('JWT 验证失败:', err); // Log verification error
-                return res.sendStatus(403); // 403 Forbidden
+                console.log('JWT 验证失败:', err); // 日志验证错误
+                return res.sendStatus(403); // 403 禁止
             }
             req.user = user;
-            console.log('Authenticated User:', user); // Log authenticated user
+            console.log('Authenticated User:', user); // 日志认证用户
             next();
         });
     } else {
-        console.log('Authorization header 缺失或格式不正确'); // Log error message
-        res.sendStatus(401); // 401 Unauthorized
+        console.log('Authorization header 缺失或格式不正确'); // 日志错误信息
+        res.sendStatus(401); // 401 未授权
     }
 };
 

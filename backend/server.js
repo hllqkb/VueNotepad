@@ -3,10 +3,10 @@ const cors = require('cors');
 const userApi = require('./api/userApi');
 const notesApi = require('./api/notesApi');
 const app = express();
-
+//写注释避免以后自己都看不懂!
 const corsOptions = {
   origin: 'http://localhost:5173', // 修改为前端运行的地址
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],// 允许跨域请求的方法
   allowedHeaders: ['Content-Type', 'Authorization'], // 确保 Authorization 被允许
   credentials: true
 };

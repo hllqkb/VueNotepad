@@ -91,7 +91,7 @@ const emits = defineEmits(['updateVisible']);
 
 const fetchNotes = async () => {
   try {
-    const response = await axios.get(`${config.LOCAL_URL}/api/notes`); // Use LOCAL_URL
+    const response = await axios.get(`${config.LOCAL_URL}/api/notes`); // 使用 LOCAL_URL
     notesList.value = response.data;
     // 按创建时间倒序排序
     notesList.value.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

@@ -23,8 +23,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import config from '@/config.js';
+<script setup>
+import config from '@/config.js'; // 确保引入配置文件
 import { ElMessage } from 'element-plus';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';

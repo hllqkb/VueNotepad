@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    
+    "allowJs": true,
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -10,7 +10,6 @@
     "outDir": "./dist-electron/preload",
     "rootDir": "./src",
     "jsx": "preserve",
-    "allowJs": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -27,7 +26,7 @@
     ]
   },
   "types": ["node"],
-  "include": ["src", "localbackend"],
+  "include": ["src"],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]

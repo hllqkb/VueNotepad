@@ -1,7 +1,6 @@
 declare module '@/config' {
   interface Config {
     COMMENT_URL: string;
-    // 添加其他配置项的类型
   }
   const config: Config;
   export default config;

@@ -167,24 +167,24 @@ app.get('/api/notes/:title', (req, res) => {
     });
 });
 
-// DELETE endpoint to delete a local notes file
+// 删除
 app.delete('/api/deletenotes/:fileName', (req, res) => {
-    const fileName = req.params.fileName; // Get the file name from the request parameters
-    const filePath = join(__dirname, 'notes', fileName); // Construct the full file path
+    const fileName = req.params.fileName; // 文件名
+    const filePath = join(__dirname, 'notes', fileName); // 文件路径
     const notesPath = join(__dirname, 'notes.json'); // notes.json 的路径
 
-    // Check if the file exists before attempting to delete
+    // 检查文件是否存在
     fs.stat(filePath, (err) => {
         if (err) {
             if (err.code === 'ENOENT') {
-                // File does not exist
+                // 文件不存在
                 return res.status(404).json({ error: filePath + ' 文件不存在' });
             }
-            // Some other error occurred
+            // 其他错误
             return res.status(500).json({ error: '检查文件时发生错误' });
         }
 
-        // Delete the file
+        // 删除文件
         fs.unlink(filePath, (err) => {
             if (err) {
                 console.error('删除文件失败:', err);

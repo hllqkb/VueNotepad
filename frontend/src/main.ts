@@ -4,10 +4,10 @@ import ElementPlus, { version as elementPlusVersion } from 'element-plus';
 import 'element-plus/dist/index.css';
 import { createApp, version as vueVersion } from 'vue';
 import App from './App.vue';
-import router from './router/index.js';
-import store from './store'; // 引入 Vuex store
+import router from './router';
+import store from './store';
 import './style.css';
-import * as utils from './utils/utils.js';
+import * as utils from './utils/utils';
 
 const app = createApp(App);
 
@@ -19,16 +19,18 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 try {
-  app
+  const vueApp = app
     .use(ElementPlus)
-    .use(store) // 注册 Vuex store
+    .use(store)
     .use(router)
-    .mount('#app')
-    .$nextTick(() => {
-      postMessage({ payload: 'removeLoading' }, '*');
-    });
+    .mount('#app');
+
+  // 保应用完全挂载后再发送消息
+  setTimeout(() => {
+    window.postMessage({ payload: 'removeLoading' }, '*');
+  }, 100);
 } catch (error) {
   console.error('插件注册失败:', error);
-  console.error('当前 Vue 版本:', vueVersion); // 输出当前 Vue 版本
-  console.error('Element Plus 版本:', elementPlusVersion); // 输出 Element Plus 版本
+  console.error('当前 Vue 版本:', vueVersion);
+  console.error('Element Plus 版本:', elementPlusVersion);
 }

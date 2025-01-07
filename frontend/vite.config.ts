@@ -1,3 +1,5 @@
+// vite.config.ts配置文件
+// https://vitejs.dev/config/ - Vite 配置文件的文档链接
 import vue from '@vitejs/plugin-vue'; // 导入 Vue 插件用于 Vite
 import { exec } from 'child_process'; // 导入 exec // 导入 execSync
 import fs from 'node:fs'; // 导入 Node.js 的文件系统模块
@@ -6,7 +8,7 @@ import { defineConfig } from 'vite'; // 从 Vite 中导入 defineConfig 函数
 import electron from 'vite-plugin-electron/simple'; // 导入 Vite Electron 插件
 import pkg from './package.json'; // 导入 package.json 文件
 
-// https://vitejs.dev/config/ - Vite 配置文件的文档链接
+
 export default defineConfig(({ command }) => {
   // 启动本地后端服务
   exec('nodemon localbackend/serve.js', { stdio: 'inherit' }, (error) => {

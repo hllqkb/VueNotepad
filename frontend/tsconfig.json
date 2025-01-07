@@ -14,8 +14,8 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,// 跳过库检查
-    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
     "noEmit": false,
     "paths": {
       "@/*": ["./src/*"]
@@ -25,7 +25,6 @@
       "./types"
     ]
   },
-  "types": ["node"],
   "include": ["src"],
   "references": [
     { "path": "./tsconfig.node.json" }

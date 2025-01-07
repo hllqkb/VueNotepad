@@ -69,7 +69,6 @@ export default {
         if (account && password) {
             this.ruleForm.name = account; // 将账号赋值
             this.ruleForm.password = password; // 将密码赋值
-            //停止运行
         }
         const username1 = localStorage.getItem('username'); // 获取用户名
         const password1 = localStorage.getItem('password'); // 获取密码

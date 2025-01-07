@@ -1,3 +1,4 @@
+//模板文件
 import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron'
 // 从 Electron 中导入所需的模块
 import { createRequire } from 'node:module'

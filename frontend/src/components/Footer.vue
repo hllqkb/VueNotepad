@@ -72,13 +72,13 @@ function comment() {
   window.open(config.COMMENT_URL, '_blank');
 }
 function openSettings() {
-  router.push('/settings'); // 假设您有一个设置页面
+  router.push('/settings'); // 设置页面
 }
 
 function toggleTheme() {
   // 切换主题的逻辑
   ElMessage.success('自己点切换主题');
-  console.log('切换主题'); // 这里可以添加实际的主题切换逻辑
+  console.log('切换主题'); // 主题切换逻辑没有哈哈哈
 }
 
 // 新增的函数，跳转到 AI 聊天页面

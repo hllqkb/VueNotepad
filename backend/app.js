@@ -31,7 +31,7 @@ redisClient.on('connect', () => {
 // 配置速率限制
 const limiter = rateLimit({
     store: new RedisStore({
-        client: redisClient, // 传递降级后的 Redis 客户端
+        client: redisClient,
     }),
     windowMs: 15 * 60 * 1000, // 15 分钟
     max: 100, // 每个IP最多100次请求

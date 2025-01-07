@@ -1,6 +1,6 @@
 @echo off
 setlocal
-
+:: by hllqk一键启动脚本
 :: 定义目录路径
 set FRONTEND_DIR=frontend
 set BACKEND_DIR=backend

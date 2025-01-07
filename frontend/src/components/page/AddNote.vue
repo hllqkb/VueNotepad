@@ -34,10 +34,7 @@ export default {
         title: this.note.title,
         content: this.note.content,
     };
-    //alert(this.note.content); // 弹出创建的笔记内容
       try {
-        //this.$store.dispatch('updateNote', this.note); // 触发 action 更新 Vuex 状态
-       // this.$store.dispatch('updateVisibility', false); // 触发 mutation 更新 Vuex 状态
        this.$store.commit('setVisible', false); // 触发 mutation 更新 Vuex 状态，关闭弹窗
       const response = await axios.post(`${config.LOCAL_URL}/api/notes`,  postData,{
           headers: {

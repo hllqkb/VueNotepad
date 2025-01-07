@@ -33,7 +33,7 @@
 <script>
 	import config from '@/config.js';
 	import axios from 'axios';
-	import { ElMessage } from 'element-plus'; // 引入 ElMessage
+	import { ElMessage } from 'element-plus';
 
 	export default {
 		data() {
@@ -103,13 +103,11 @@
         },
     onSubmit(formName) {
         const self = this;			
-       // console.log('账户信息:', self.form);
         self.$refs[formName].validate((valid) => {
             if (valid) {
-                // 提交表单数据到后端，发送不含 checkPass 的 formData
-                const { checkPass, ...formData } = self.form; // 移除 checkPass
+                const { checkPass, ...formData } = self.form;
                 axios.post(`${config.API_BASE_URL}/api/user/addUser`, {
-                    username: formData.account, // 确保使用正确的字段名
+                    username: formData.account,
                     password: formData.pass
                 })
                 .then((response) => {

@@ -33,12 +33,12 @@
 <script>
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+import { mapState } from 'vuex';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import MainContentLight from './components/MainContentLight.vue';
 import SideBar from './components/SideBar.vue'; // 引入 SideBar 组件
 import config from './config';
-import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -64,7 +64,7 @@ export default {
     Header,
     MainContentLight,
     Footer,
-    SideBar // 注册 SideBar 组件
+    SideBar // 注册SideBar组件
   },
   methods: {
     handleUpdateVisible(visible) {
